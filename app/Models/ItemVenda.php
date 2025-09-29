@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ItemVenda extends Model
 {
@@ -11,14 +12,18 @@ class ItemVenda extends Model
 
     public $timestamps = false;
 
-    // RELAÇÃO: Item pertence a uma venda
-    public function venda()
+    /**
+     * Define a relação de que um ItemVenda pertence a uma Venda.
+     */
+    public function venda(): BelongsTo
     {
         return $this->belongsTo(Venda::class, 'venda_id');
     }
 
-    // RELAÇÃO: Item pertence a um produto
-    public function produto()
+    /**
+     * Define a relação de que um ItemVenda pertence a um Produto.
+     */
+    public function produto(): BelongsTo
     {
         return $this->belongsTo(Produto::class, 'produto_id');
     }

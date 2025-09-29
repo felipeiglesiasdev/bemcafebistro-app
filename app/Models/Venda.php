@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Venda extends Model
 {
@@ -11,8 +12,10 @@ class Venda extends Model
 
     public $timestamps = false;
 
-    // RELAÇÃO: Venda possui vários itens
-    public function itens()
+    /**
+     * Define a relação de que uma Venda possui vários Itens de Venda.
+     */
+    public function itens(): HasMany
     {
         return $this->hasMany(ItemVenda::class, 'venda_id');
     }

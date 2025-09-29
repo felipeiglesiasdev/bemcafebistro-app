@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\VendaController;
+use App\Http\Controllers\CategoriaController; 
 
 // Rotas de Autenticação para o painel de admin
 Route::controller(AuthController::class)->group(function () {
@@ -19,6 +20,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Rotas de CRUD para Produtos, Estoque e Vendas
+    Route::resource('categorias', CategoriaController::class); 
     Route::resource('produtos', ProdutoController::class);
     Route::resource('estoque', EstoqueController::class);
     Route::resource('vendas', VendaController::class);

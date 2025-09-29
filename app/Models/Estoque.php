@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Estoque extends Model
 {
@@ -14,8 +15,10 @@ class Estoque extends Model
 
     public $timestamps = false;
 
-    // RELAÇÃO: Estoque pertence a um produto
-    public function produto()
+    /**
+     * Define a relação de que um registro de Estoque pertence a um Produto.
+     */
+    public function produto(): BelongsTo
     {
         return $this->belongsTo(Produto::class, 'produto_id');
     }
