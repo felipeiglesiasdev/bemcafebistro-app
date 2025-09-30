@@ -2,92 +2,92 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-700">Gerenciamento de Estoque</h1>
-        <a href="{{ route('estoque.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <h1 class="text-3xl font-bold text-stone-800">Gerenciamento de Estoque</h1>
+        <a href="{{ route('estoque.create') }}" class="bg-amber-800 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg flex items-center transition-transform duration-300 ease-in-out transform hover:scale-105">
+            <i class="bi bi-plus-circle-fill mr-2"></i>
             Adicionar ao Estoque
         </a>
     </div>
 
-    <!-- Filtro de Busca -->
-    <div class="mb-4">
+    <div class="mb-6">
         <form action="{{ route('estoque.index') }}" method="GET">
-            <div class="flex items-center">
-                <input type="text" name="search" placeholder="Buscar por nome do produto..." class="shadow appearance-none border rounded w-full md:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $search ?? '' }}">
-                <button type="submit" class="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buscar</button>
+            <div class="relative w-full md:w-1/3">
+                <input type="text" name="search" placeholder="Buscar por nome do produto..." class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-shadow duration-200" value="{{ $search ?? '' }}">
+                <button type="submit" class="absolute inset-y-0 right-0 px-4 flex items-center text-stone-600 hover:text-amber-800 transition-colors duration-200">
+                    <i class="bi bi-search font-bold"></i>
+                </button>
             </div>
         </form>
     </div>
 
     @if (session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-            <p>{{ session('success') }}</p>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-lg shadow-md" role="alert">
+            <p class="font-semibold">{{ session('success') }}</p>
         </div>
     @endif
 
-    <div class="bg-white shadow-md rounded-lg overflow-x-auto">
+    <div class="bg-white shadow-2xl rounded-2xl overflow-x-auto">
         <table class="min-w-full leading-normal">
             <thead>
-                <tr>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Produto</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantidade</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Preço Compra</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Preço Venda</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data Compra</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data Validade</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
+                <tr class="bg-gray-50">
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Produto</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantidade</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Preço Compra</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Preço Venda</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data Compra</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data Validade</th>
+                    <th class="px-6 py-4 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-200">
                 @forelse ($estoques as $item)
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $item->produto->nome ?? 'Produto não encontrado' }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                        <span class="bg-blue-200 text-blue-800 py-1 px-3 rounded-full text-xs">{{ $item->quantidade }}</span>
+                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">{{ $item->produto->nome ?? 'Produto não encontrado' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                        <span class="bg-blue-200 text-blue-800 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->quantidade }}</span>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">R$ {{ number_format($item->preco_compra, 2, ',', '.') }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">R$ {{ number_format($item->preco_venda, 2, ',', '.') }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ \Carbon\Carbon::parse($item->data_compra)->format('d/m/Y') }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $item->data_validade ? \Carbon\Carbon::parse($item->data_validade)->format('d/m/Y') : 'N/A' }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex items-center space-x-2">
-                            <a href="{{ route('estoque.edit', $item->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold p-2 rounded inline-flex items-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.732 3.732z"></path></svg>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">R$ {{ number_format($item->preco_compra, 2, ',', '.') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">R$ {{ number_format($item->preco_venda, 2, ',', '.') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ \Carbon\Carbon::parse($item->data_compra)->format('d/m/Y') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $item->data_validade ? \Carbon\Carbon::parse($item->data_validade)->format('d/m/Y') : 'N/A' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <div class="flex items-center space-x-3">
+                            <a href="{{ route('estoque.edit', $item->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold p-2 rounded-lg inline-flex items-center transition-transform duration-300 ease-in-out transform hover:scale-110">
+                                <i class="bi bi-pencil-fill"></i>
                             </a>
-                            <button type="button" class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded inline-flex items-center delete-btn" data-url="{{ route('estoque.destroy', $item->id) }}">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            <button type="button" class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded-lg inline-flex items-center delete-btn transition-transform duration-300 ease-in-out transform hover:scale-110" data-url="{{ route('estoque.destroy', $item->id) }}">
+                                <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">Nenhum registro de estoque encontrado.</td>
+                    <td colspan="7" class="px-6 py-10 text-center text-gray-500">Nenhum registro de estoque encontrado.</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    <div class="mt-6">
+    <div class="mt-8">
         {{ $estoques->links() }}
     </div>
 </div>
 
-<!-- Modal de Confirmação de Exclusão -->
-<div id="deleteModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center hidden z-50 transition-opacity duration-300">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-transform duration-300 scale-95">
-        <h3 class="text-lg font-bold mb-4">Confirmar Exclusão</h3>
-        <p>Você tem certeza que deseja excluir este registro do estoque?</p>
-        <div class="mt-6 flex justify-end space-x-4">
-            <button id="cancelBtn" type="button" class="cursor-pointer bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+<div id="deleteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden z-50 transition-opacity duration-300">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-11/12 md:w-1/3 transform transition-transform duration-300 scale-95">
+        <h3 class="text-xl font-bold text-stone-800 mb-4">Confirmar Exclusão</h3>
+        <p class="text-gray-600">Você tem certeza que deseja excluir este registro do estoque?</p>
+        <div class="mt-8 flex justify-end space-x-4">
+            <button id="cancelBtn" type="button" class="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200">
                 Cancelar
             </button>
             <form id="deleteForm" method="POST" action="">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" class="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
                     Confirmar Exclusão
                 </button>
             </form>
@@ -133,4 +133,3 @@
     });
 </script>
 @endsection
-
